@@ -43,4 +43,4 @@
 
 # Configuration of elements embedded in the docker file
 If you use the default generic dockerfile provided by this action, you can add a file in your project name `dockerInclude`.
-In this file you can list line by line the files and folders to include in the final docker image.
+In this file you can list line by line the files and folders to include in the final docker image. By default, the `configs` and `static` folders are embedded.
