@@ -5,7 +5,7 @@
 ```yaml
 - uses: SkySoft-ATM/go-release-action@v1
   with:
-    # GCloud token
+    # GCloud token in base 64
     gcloud_token:  ${{ secrets.MY_GCLOUD_TOKEN_SECRET }}
   
     # Github user
