@@ -1,0 +1,47 @@
+ARG PROJECT
+FROM eu.gcr.io/${PROJECT}/go-baseimage:0.0.9 AS build
+
+# generate ~/.git-credentials so dep can download dependencies from private repo
+ARG GITHUB_USER
+ARG GITHUB_TOKEN
+ARG BUILD_VERSION
+ARG APP_NAME
+ARG APP_DESCRIPTION
+ARG MAIN_FOLDER
+RUN git config --global credential.helper store && echo "https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com" > ~/.git-credentials
+
+WORKDIR /go/src/github.com/skysoft-atm/${APP_NAME}
+
+
+ENV GOPRIVATE=github.com/skysoft-atm
+# Dowload all deps at this step so they can be cached for the next build
+COPY go.mod .
+COPY go.sum .
+RUN go mod download
+RUN go mod verify
+
+COPY . .
+RUN go vet ./...
+RUN /usr/bin/staticcheck ./...
+RUN /usr/bin/gosec ./...
+RUN go test ./... -race
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-X 'github.com/skysoft-atm/gorillaz.ApplicationVersion=${BUILD_VERSION}' -X 'github.com/skysoft-atm/gorillaz.ApplicationName=${APP_NAME}' -X 'github.com/skysoft-atm/gorillaz.ApplicationDescription=${APP_DESCRIPTION}' -w -s" -o /go/bin/${APP_NAME} ${MAIN_FOLDER}
+
+FROM scratch
+ARG APP_NAME
+
+# Import the TLS root certificates
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+
+# Import timeinfo
+COPY --from=build /usr/share/zoneinfo /usr/share/zoneinfo
+
+# Import the user and group files from the builder.
+COPY --from=build /etc/minimal_passwd /etc/passwd
+
+COPY --from=build /go/bin/${APP_NAME} /go/bin/${APP_NAME}
+COPY --from=build /go/src/github.com/skysoft-atm/${APP_NAME}/IncludeInFinalDockerImage/ ./
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+
+# Use an unprivileged user.
+USER appuser

@@ -1,0 +1,61 @@
+# action.yml
+name: 'Build and Push Docker Image'
+description: 'build and push a docker image'
+inputs:
+  dockerfile:
+    description: 'dockerfile'
+    default: '/GenericDockerfileForGo'
+    required: true
+  github_user:
+    description: 'github_user'
+    required: true
+  github_token:
+    description: 'github_token'
+    required: true
+  project:
+    description: 'project'
+    default: 'ccs-skyserver'
+    required: true
+  repo_name:
+    description: 'repo_name'
+    default: ${{ github.event.repository.name }}
+    required: true
+  app_name:
+    description: 'app_name'
+    default: ${{ github.event.repository.name }}
+    required: true
+  app_description:
+    description: 'app_description'
+    default: ''
+    required: true
+  gcloud_token:
+    description: 'gcloud_token'
+    required: true
+  ref:
+    description: 'ref'
+    default: ${{ github.event.ref }}
+    required: true
+  sha:
+    description: 'sha'
+#    default: ${{ github.event.before }}
+    default: ${{ github.sha }}
+    required: true
+  go_main_folder:
+    description: 'go main folder'
+    default: './main/'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.dockerfile }}
+    - ${{ inputs.github_user }}
+    - ${{ inputs.github_token }}
+    - ${{ inputs.project }}
+    - ${{ inputs.repo_name }}
+    - ${{ inputs.app_name }}
+    - ${{ inputs.app_description }}
+    - ${{ inputs.gcloud_token }}
+    - ${{ inputs.ref }}
+    - ${{ inputs.sha }}
+    - ${{ inputs.go_main_folder }}
