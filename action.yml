@@ -44,6 +44,10 @@ inputs:
     description: 'go main folder'
     default: './main/'
     required: true
+  gosec_opts:
+    description: 'options for gosec command line'
+    default: ''
+    required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -59,3 +63,4 @@ runs:
     - ${{ inputs.ref }}
     - ${{ inputs.sha }}
     - ${{ inputs.go_main_folder }}
+    - ${{ inputs.gosec_opts }}

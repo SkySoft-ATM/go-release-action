@@ -37,6 +37,10 @@
     # By default a generic docker file will be used. If you want more flexibility for your project, you can point to a custom dockerfile
     dockerfile: ''
 
+    # Options for the gosec command line
+    # Default: ''
+    gosec_opts: '-exclude-dir=myExcludedDir'
+
     
 ```
 <!-- end usage -->
