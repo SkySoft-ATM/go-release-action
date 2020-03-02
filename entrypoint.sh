@@ -75,9 +75,6 @@ fi
 
 echo "building version ${BUILD_VERSION} for repo ${REPO_NAME}, app name ${APP_NAME} with dockerfile ${DOCKERFILE} ref=${GITHUB_REF} sha=${GITHUB_SHA}"
 
-ls . | xargs echo
-
-
 echo "${GCLOUD_TOKEN}" | base64 -d | docker login -u _json_key --password-stdin https://eu.gcr.io
 
 prepareIncludedContent
