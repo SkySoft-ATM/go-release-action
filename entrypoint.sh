@@ -26,7 +26,6 @@ if [ -z "${GCLOUD_TOKEN}" ]; then echo "::error ::Undefined gcloud token" && exi
 if [ -z "${GITHUB_REF}" ]; then echo "::error ::Undefined github ref" && exit 1; fi
 if [ -z "${GITHUB_SHA}" ]; then echo "::error ::Undefined github sha" && exit 1; fi
 if [ -z "${MAIN_FOLDER}" ]; then echo "::error ::Undefined main folder" && exit 1; fi
-if [ -z "${GOSEC_OPTS}" ]; then echo "::error ::Undefined GOSEC_OPTS" && exit 1; fi
 
 
 prepareIncludedContent(){
