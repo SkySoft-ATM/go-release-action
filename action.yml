@@ -37,7 +37,6 @@ inputs:
     required: true
   sha:
     description: 'sha'
-#    default: ${{ github.event.before }}
     default: ${{ github.sha }}
     required: true
   go_main_folder:
