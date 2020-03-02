@@ -8,6 +8,7 @@ ARG BUILD_VERSION
 ARG APP_NAME
 ARG APP_DESCRIPTION
 ARG MAIN_FOLDER
+ARG GOSEC_OPTS
 RUN git config --global credential.helper store && echo "https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com" > ~/.git-credentials
 
 WORKDIR /go/src/github.com/skysoft-atm/${APP_NAME}
