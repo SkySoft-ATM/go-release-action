@@ -45,6 +45,13 @@ prepareIncludedContent(){
     echo "static does not exists"
   fi
 
+    if [ -d "./build" ]; then
+    echo "build exists"
+    cp -R ./build ./IncludeInFinalDockerImage
+  else
+    echo "build does not exists"
+  fi
+
   if [ -f "./dockerInclude" ]; then
     echo "custom dockerInclude file provided"
     while IFS="" read -r l || [ -n "$l" ]
