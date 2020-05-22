@@ -89,7 +89,7 @@ prepareIncludedContent
 # The exec form of entry point will not resolve the variable name
 echo "ENTRYPOINT [\"/go/bin/$APP_NAME\", \"--conf=configs\"]" >> /GenericDockerfileForGo
 
-docker build  --build-arg BUILD_VERSION="${BUILD_VERSION}" --build-arg GITHUB_USER="${GITHUB_USER}" --build-arg GITHUB_TOKEN="${GITHUB_TOKEN}" --build-arg APP_NAME="${APP_NAME}" --build-arg APP_DESCRIPTION="${APP_DESCRIPTION}" --build-arg MAIN_FOLDER="${MAIN_FOLDER}" --build-arg PROJECT="${PROJECT}" --build-arg GOSEC_OPTS="${GOSEC_OPTS}" -t eu.gcr.io/"${PROJECT}"/"${APP_NAME}":"${BUILD_VERSION}" . -f "${DOCKERFILE}"
+docker build  --build-arg BUILD_VERSION="${BUILD_VERSION}" --build-arg GITHUB_USER="${GITHUB_USER}" --build-arg GITHUB_TOKEN="${GITHUB_TOKEN}" --build-arg APP_NAME="${APP_NAME}" --build-arg APP_DESCRIPTION="${APP_DESCRIPTION}" --build-arg MAIN_FOLDER="${MAIN_FOLDER}" --build-arg GOSEC_OPTS="${GOSEC_OPTS}" -t eu.gcr.io/"${PROJECT}"/"${APP_NAME}":"${BUILD_VERSION}" . -f "${DOCKERFILE}"
 
 docker tag eu.gcr.io/"${PROJECT}"/"${REPO_NAME}":"${BUILD_VERSION}" eu.gcr.io/"${PROJECT}"/"${REPO_NAME}":latest
 docker push eu.gcr.io/"${PROJECT}"/"${REPO_NAME}":"${BUILD_VERSION}"
