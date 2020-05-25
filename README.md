@@ -22,7 +22,7 @@
     app_description: 'an application offering a web GUI to trigger github actions'
 
     # GKE Project
-    # Default:  ccs-skyserver
+    # Default:  sk-private-registry/skysoft-atm
     project: myProject
     
     # The repo name
