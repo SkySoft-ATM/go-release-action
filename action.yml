@@ -47,6 +47,22 @@ inputs:
     description: 'options for gosec command line'
     default: ''
     required: true
+  skip_govet:
+    description: 'option to skip go vet'
+    default: 'false'
+    required: true
+  skip_staticcheck:
+    description: 'option to skip staticcheck'
+    default: 'false'
+    required: true
+  skip_gosec:
+    description: 'option to skip gosec'
+    default: 'false'
+    required: true
+  skip_tests:
+    description: 'option to skip unit tests'
+    default: 'false'
+    required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -63,3 +79,7 @@ runs:
     - ${{ inputs.sha }}
     - ${{ inputs.go_main_folder }}
     - ${{ inputs.gosec_opts }}
+    - ${{ inputs.skip_govet }}
+    - ${{ inputs.skip_staticcheck }}
+    - ${{ inputs.skip_gosec }}
+    - ${{ inputs.skip_tests }}

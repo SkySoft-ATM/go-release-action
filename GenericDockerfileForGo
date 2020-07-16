@@ -8,6 +8,10 @@ ARG APP_NAME
 ARG APP_DESCRIPTION
 ARG MAIN_FOLDER
 ARG GOSEC_OPTS
+ARG SKIP_GOVET
+ARG SKIP_STATICCHECK
+ARG SKIP_GOSEC
+ARG SKIP_TESTS
 RUN git config --global credential.helper store && echo "https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com" > ~/.git-credentials
 
 WORKDIR /go/src/github.com/skysoft-atm/${APP_NAME}
@@ -21,10 +25,14 @@ RUN go mod download
 RUN go mod verify
 
 COPY . .
-RUN go vet ./...
-RUN /usr/bin/staticcheck ./...
-RUN /usr/bin/gosec ${GOSEC_OPTS} ./...
-RUN go test ./... -race
+RUN if [ "SKIP_GOVET" = "true" ] ; then echo "Skipping go vet" ; else go vet ./... ; fi
+# RUN go vet ./...
+RUN if [ "$SKIP_STATICCHECK" = "true" ] ; then echo "Skipping staticcheck" ; else /usr/bin/staticcheck ./... ; fi
+# RUN /usr/bin/staticcheck ./...
+RUN if [ "SKIP_GOSEC" = "true" ] ; then echo "Skipping gosec" ; else /usr/bin/gosec ${GOSEC_OPTS} ./... ; fi
+# RUN /usr/bin/gosec ${GOSEC_OPTS} ./...
+RUN if [ "SKIP_TESTS" = "true" ] ; then echo "Skipping tests" ; else go test ./... -race ; fi
+# RUN go test ./... -race
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-X 'github.com/skysoft-atm/gorillaz.ApplicationVersion=${BUILD_VERSION}' -X 'github.com/skysoft-atm/gorillaz.ApplicationName=${APP_NAME}' -X 'github.com/skysoft-atm/gorillaz.ApplicationDescription=${APP_DESCRIPTION}' -w -s" -o /go/bin/${APP_NAME} ${MAIN_FOLDER}
 
 FROM scratch
