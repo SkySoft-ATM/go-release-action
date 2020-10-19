@@ -18,6 +18,7 @@ SKIP_GOVET=${13}
 SKIP_STATICCHECK=${14}
 SKIP_GOSEC=${15}
 SKIP_TESTS=${16}
+GENERATE_VERSION=${17}
 
 if [ -z "${DOCKERFILE}" ]; then echo "::error ::Undefined dockerfile" && exit 1; fi
 if [ -z "${GITHUB_USER}" ]; then echo "::error ::Undefined github user" && exit 1; fi
@@ -93,7 +94,7 @@ prepareIncludedContent
 # The exec form of entry point will not resolve the variable name
 echo "ENTRYPOINT [\"/go/bin/$APP_NAME\", \"--conf=configs\"]" >> /GenericDockerfileForGo
 
-docker build  --build-arg BUILD_VERSION="${BUILD_VERSION}" --build-arg GITHUB_USER="${GITHUB_USER}" --build-arg GITHUB_TOKEN="${GITHUB_TOKEN}" --build-arg APP_NAME="${APP_NAME}" --build-arg APP_DESCRIPTION="${APP_DESCRIPTION}" --build-arg MAIN_FOLDER="${MAIN_FOLDER}" --build-arg GOSEC_OPTS="${GOSEC_OPTS}" --build-arg SKIP_GOVET="${SKIP_GOVET}" --build-arg SKIP_STATICCHECK="${SKIP_STATICCHECK}" --build-arg SKIP_GOSEC="${SKIP_GOSEC}" --build-arg SKIP_TESTS="${SKIP_TESTS}" -t eu.gcr.io/"${PROJECT}"/"${APP_NAME}":"${BUILD_VERSION}" . -f "${DOCKERFILE}"
+docker build  --build-arg BUILD_VERSION="${BUILD_VERSION}" --build-arg GITHUB_USER="${GITHUB_USER}" --build-arg GITHUB_TOKEN="${GITHUB_TOKEN}" --build-arg APP_NAME="${APP_NAME}" --build-arg APP_DESCRIPTION="${APP_DESCRIPTION}" --build-arg MAIN_FOLDER="${MAIN_FOLDER}" --build-arg GOSEC_OPTS="${GOSEC_OPTS}" --build-arg SKIP_GOVET="${SKIP_GOVET}" --build-arg SKIP_STATICCHECK="${SKIP_STATICCHECK}" --build-arg SKIP_GOSEC="${SKIP_GOSEC}" --build-arg SKIP_TESTS="${SKIP_TESTS}" --build-arg GENERATE_VERSION="${GENERATE_VERSION}" -t eu.gcr.io/"${PROJECT}"/"${APP_NAME}":"${BUILD_VERSION}" . -f "${DOCKERFILE}"
 
 docker tag eu.gcr.io/"${PROJECT}"/"${REPO_NAME}":"${BUILD_VERSION}" eu.gcr.io/"${PROJECT}"/"${REPO_NAME}":latest
 docker push eu.gcr.io/"${PROJECT}"/"${REPO_NAME}":"${BUILD_VERSION}"

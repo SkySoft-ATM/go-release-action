@@ -41,6 +41,10 @@
     # Default: ''
     gosec_opts: '-exclude-dir=myExcludedDir'
 
+    # Options to generate version
+    # Default: 'false'
+    generate_version: true
+
     
 ```
 <!-- end usage -->
