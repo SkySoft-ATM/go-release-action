@@ -12,6 +12,7 @@ ARG SKIP_GOVET
 ARG SKIP_STATICCHECK
 ARG SKIP_GOSEC
 ARG SKIP_TESTS
+ARG GENERATE_VERSION
 RUN git config --global credential.helper store && echo "https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com" > ~/.git-credentials
 
 WORKDIR /go/src/github.com/skysoft-atm/${APP_NAME}
@@ -25,6 +26,7 @@ RUN go mod download
 RUN go mod verify
 
 COPY . .
+RUN if [ "$GENERATE_VERSION" = "true" ] ; then go generate ./... ; fi
 RUN if [ "$SKIP_GOVET" = "true" ] ; then echo "Skipping go vet" ; else go vet ./... ; fi
 # RUN go vet ./...
 RUN if [ "$SKIP_STATICCHECK" = "true" ] ; then echo "Skipping staticcheck" ; else /usr/bin/staticcheck ./... ; fi
