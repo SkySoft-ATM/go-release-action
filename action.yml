@@ -63,6 +63,10 @@ inputs:
     description: 'option to skip unit tests'
     default: 'false'
     required: true
+  generate_version: 
+    description: 'option to generate version'
+    default: 'false'
+    required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -83,3 +87,4 @@ runs:
     - ${{ inputs.skip_staticcheck }}
     - ${{ inputs.skip_gosec }}
     - ${{ inputs.skip_tests }}
+    - ${{ inputs.generate_version }}
