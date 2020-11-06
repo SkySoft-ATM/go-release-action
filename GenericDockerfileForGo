@@ -19,7 +19,7 @@ WORKDIR /go/src/github.com/skysoft-atm/${APP_NAME}
 
 
 ENV GOPRIVATE=github.com/skysoft-atm
-# Dowload all deps at this step so they can be cached for the next build
+# Download all deps at this step so they can be cached for the next build
 COPY go.mod .
 COPY go.sum .
 RUN go mod download
