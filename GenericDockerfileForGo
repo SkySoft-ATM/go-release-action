@@ -1,4 +1,4 @@
-FROM eu.gcr.io/sk-registry/go-baseimage:0.0.25 AS build
+FROM eu.gcr.io/sk-registry/go-baseimage:0.0.26 AS build
 
 # generate ~/.git-credentials so dep can download dependencies from private repo
 ARG GITHUB_USER
@@ -13,6 +13,7 @@ ARG SKIP_STATICCHECK
 ARG SKIP_GOSEC
 ARG SKIP_TESTS
 ARG GENERATE_VERSION
+ARG SKIP_GOLANGCI_LINT
 RUN git config --global credential.helper store && echo "https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com" > ~/.git-credentials
 
 WORKDIR /go/src/github.com/skysoft-atm/${APP_NAME}
@@ -32,6 +33,8 @@ RUN if [ "$SKIP_GOVET" = "true" ] ; then echo "Skipping go vet" ; else go vet ./
 RUN if [ "$SKIP_STATICCHECK" = "true" ] ; then echo "Skipping staticcheck" ; else /usr/bin/staticcheck ./... ; fi
 # RUN /usr/bin/staticcheck ./...
 RUN if [ "$SKIP_GOSEC" = "true" ] ; then echo "Skipping gosec" ; else /usr/bin/gosec ${GOSEC_OPTS} ./... ; fi
+# RUN /usr/bin/golangci-lint
+RUN if [ "$SKIP_GOLANGCI_LINT" = "true" ] ; then echo "Skipping golangci_lint" ; else /usr/bin/golangci-lint run ; fi
 # RUN /usr/bin/gosec ${GOSEC_OPTS} ./...
 RUN if [ "$SKIP_TESTS" = "true" ] ; then echo "Skipping tests" ; else go test ./... -race ; fi
 # RUN go test ./... -race

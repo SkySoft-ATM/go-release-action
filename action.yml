@@ -67,6 +67,10 @@ inputs:
     description: 'option to generate version'
     default: 'false'
     required: true
+  skip_golangci_lint:
+    description: 'option to skip golangci-lint'
+    default: 'false'
+    required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -88,3 +92,4 @@ runs:
     - ${{ inputs.skip_gosec }}
     - ${{ inputs.skip_tests }}
     - ${{ inputs.generate_version }}
+    - ${{ inputs.skip_golangci_lint }}
