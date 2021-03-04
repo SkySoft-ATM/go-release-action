@@ -1,4 +1,4 @@
-FROM eu.gcr.io/sk-registry/go-baseimage:0.0.27 AS build
+FROM eu.gcr.io/sk-registry/go-baseimage:0.0.28 AS build
 
 # generate ~/.git-credentials so dep can download dependencies from private repo
 ARG GITHUB_USER
