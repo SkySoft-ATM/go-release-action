@@ -1,5 +1,9 @@
 # go-release-action
 
+⚠️This action is DEPRECATED and this repository is archived.
+This action uses a token to authenticate to Google Cloud, which is not recommended.
+It should be changed to use workload identity federation instead.
+
 # Usage
 <!-- start usage -->
 ```yaml
